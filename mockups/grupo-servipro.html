@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grupo ServiPro — CRM de ventas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f1420;
+    --panel:#161d2c;
+    --panel-2:#1c2438;
+    --ink:#eef1f8;
+    --muted:#8791a8;
+    --blue:#5b8def;
+    --blue-soft:#5b8def1f;
+    --line:#ffffff14;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{ font-family:'Manrope',sans-serif; background:var(--bg); color:var(--ink); }
+
+  .banner{ background:var(--blue); color:#0f1420; text-align:center; font-size:13px; font-weight:700; padding:8px; }
+
+  .topbar{ display:flex; align-items:center; justify-content:space-between; padding:20px 5vw; border-bottom:1px solid var(--line); }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:800; font-size:16px; }
+  .brand .mark{ width:26px; height:26px; background:var(--blue); border-radius:6px; }
+  .topbar nav{ display:flex; gap:26px; font-size:13.5px; color:var(--muted); }
+  .topbar nav span.active{ color:var(--ink); font-weight:700; }
+  @media (max-width:700px){ .topbar nav{display:none;} }
+
+  main{ padding:38px 5vw 70px; max-width:1300px; margin:0 auto; }
+  .page-head{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:28px; flex-wrap:wrap; gap:14px; }
+  .page-head h1{ font-size:26px; font-weight:800; }
+  .page-head p{ color:var(--muted); font-size:13.5px; margin-top:4px; }
+  .btn{ background:var(--blue); color:#0f1420; font-weight:700; font-size:13.5px; padding:11px 20px; border-radius:6px; text-decoration:none; }
+
+  .kpi-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:34px; }
+  @media (max-width:900px){ .kpi-row{ grid-template-columns:1fr 1fr; } }
+  .kpi{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:18px 20px; }
+  .kpi .label{ color:var(--muted); font-size:12.5px; margin-bottom:8px; }
+  .kpi .value{ font-size:24px; font-weight:800; }
+  .kpi .value.blue{ color:var(--blue); }
+
+  .board{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+  @media (max-width:1000px){ .board{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:620px){ .board{ grid-template-columns:1fr; } }
+  .col{ background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px; min-height:200px; }
+  .col-head{ display:flex; justify-content:space-between; align-items:center; padding:6px 6px 14px; }
+  .col-head h3{ font-size:13px; font-weight:700; letter-spacing:.2px; }
+  .col-head .count{ background:var(--blue-soft); color:var(--blue); font-size:11.5px; font-weight:700; padding:2px 9px; border-radius:20px; }
+
+  .lead{ background:var(--panel-2); border:1px solid var(--line); border-radius:8px; padding:14px; margin-bottom:12px; }
+  .lead .name{ font-size:14px; font-weight:700; margin-bottom:4px; }
+  .lead .company{ font-size:12.5px; color:var(--muted); margin-bottom:10px; }
+  .lead .meta{ display:flex; justify-content:space-between; align-items:center; font-size:11.5px; color:var(--muted); }
+  .lead .value{ color:var(--blue); font-weight:700; }
+  .avatar{ width:22px; height:22px; border-radius:50%; background:linear-gradient(135deg,var(--blue),#8fb4ff); display:inline-flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; color:#0f1420; }
+
+  footer{ text-align:center; color:var(--muted); font-size:12.5px; padding:26px; border-top:1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<div class="banner">MOCKUP DE EJEMPLO — negocio ficticio creado por KMA Business Intelligence</div>
+
+<div class="topbar">
+  <div class="brand"><span class="mark"></span>Grupo ServiPro CRM</div>
+  <nav><span class="active">Pipeline</span><span>Contactos</span><span>Automatizaciones</span><span>Reportes</span></nav>
+</div>
+
+<main>
+  <div class="page-head">
+    <div>
+      <h1>Pipeline de ventas</h1>
+      <p>Seguimiento de oportunidades comerciales — vista general del mes.</p>
+    </div>
+    <a class="btn" href="#">+ Nuevo contacto</a>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="label">Oportunidades activas</div><div class="value">18</div></div>
+    <div class="kpi"><div class="label">Valor en pipeline</div><div class="value blue">S/ 84,200</div></div>
+    <div class="kpi"><div class="label">Tasa de cierre (mes)</div><div class="value">32%</div></div>
+    <div class="kpi"><div class="label">Tiempo prom. de cierre</div><div class="value">11 días</div></div>
+  </div>
+
+  <div class="board">
+    <div class="col">
+      <div class="col-head"><h3>NUEVO CONTACTO</h3><span class="count">6</span></div>
+      <div class="lead"><div class="name">Mónica Reyes</div><div class="company">Distribuidora Andina</div><div class="meta"><span class="value">S/ 3,200</span><span class="avatar">MR</span></div></div>
+      <div class="lead"><div class="name">Carlos Ubillús</div><div class="company">Textiles Norte</div><div class="meta"><span class="value">S/ 5,800</span><span class="avatar">CU</span></div></div>
+      <div class="lead"><div class="name">Grupo Valverde</div><div class="company">Construcción</div><div class="meta"><span class="value">S/ 12,400</span><span class="avatar">GV</span></div></div>
+    </div>
+    <div class="col">
+      <div class="col-head"><h3>COTIZADO</h3><span class="count">5</span></div>
+      <div class="lead"><div class="name">Panadería Central</div><div class="company">Retail alimentos</div><div class="meta"><span class="value">S/ 2,100</span><span class="avatar">PC</span></div></div>
+      <div class="lead"><div class="name">Farmacorp SAC</div><div class="company">Salud</div><div class="meta"><span class="value">S/ 9,600</span><span class="avatar">FS</span></div></div>
+    </div>
+    <div class="col">
+      <div class="col-head"><h3>NEGOCIANDO</h3><span class="count">4</span></div>
+      <div class="lead"><div class="name">Transportes Lima Sur</div><div class="company">Logística</div><div class="meta"><span class="value">S/ 18,000</span><span class="avatar">TL</span></div></div>
+      <div class="lead"><div class="name">Clínica San Rafael</div><div class="company">Salud</div><div class="meta"><span class="value">S/ 7,300</span><span class="avatar">CR</span></div></div>
+    </div>
+    <div class="col">
+      <div class="col-head"><h3>CERRADO GANADO</h3><span class="count">3</span></div>
+      <div class="lead"><div class="name">Ferretería Rodríguez</div><div class="company">Retail</div><div class="meta"><span class="value">S/ 4,500</span><span class="avatar">FR</span></div></div>
+      <div class="lead"><div class="name">Restobar Canaima</div><div class="company">Restaurante</div><div class="meta"><span class="value">S/ 6,900</span><span class="avatar">RC</span></div></div>
+    </div>
+  </div>
+</main>
+
+<footer>Mockup de ejemplo — KMA Business Intelligence · Este sitio es una demostración, no un negocio real.</footer>
+
+</body>
+</html>

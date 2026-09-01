@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restobar Canaima — Caja diaria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --bg:#f7f8f4;
+    --panel:#ffffff;
+    --ink:#1c2620;
+    --muted:#6b7568;
+    --green:#2f7d4f;
+    --green-soft:#2f7d4f14;
+    --red:#c1533a;
+    --line:#e5e7e0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{ font-family:'Inter',sans-serif; background:var(--bg); color:var(--ink); }
+  .disp{ font-family:'Fraunces',serif; }
+
+  .banner{ background:var(--green); color:#fff; text-align:center; font-size:13px; font-weight:600; padding:8px; }
+
+  .topbar{ display:flex; align-items:center; justify-content:space-between; padding:22px 5vw; border-bottom:1px solid var(--line); background:var(--panel); }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand .dot{ width:12px; height:12px; border-radius:50%; background:var(--green); }
+  .brand span{ font-weight:700; font-size:17px; }
+  .topbar .date{ color:var(--muted); font-size:13.5px; }
+
+  main{ padding:44px 5vw 70px; max-width:1180px; margin:0 auto; }
+  .page-head{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:32px; flex-wrap:wrap; gap:16px;}
+  .page-head h1{ font-size:30px; }
+  .page-head p{ color:var(--muted); font-size:14px; margin-top:6px; }
+  .status{ font-size:12.5px; padding:6px 12px; border-radius:20px; font-weight:600; }
+  .status.live{ background:var(--green-soft); color:var(--green); }
+  .status.demo{ background:#f0ecd8; color:#8a7a2c; }
+
+  .kpi-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:36px; }
+  @media (max-width:760px){ .kpi-row{ grid-template-columns:1fr; } }
+  .kpi{ background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:24px; }
+  .kpi .label{ font-size:13px; color:var(--muted); margin-bottom:10px; }
+  .kpi .value{ font-family:'Fraunces'; font-size:30px; font-weight:700; }
+  .kpi.ingresos .value{ color:var(--green); }
+  .kpi.gastos .value{ color:var(--red); }
+
+  .panel{ background:var(--panel); border:1px solid var(--line); border-radius:6px; overflow:hidden; margin-bottom:30px; }
+  .panel-head{ padding:20px 24px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; }
+  .panel-head h2{ font-size:16px; font-weight:600; }
+  table{ width:100%; border-collapse:collapse; }
+  th{ text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.4px; color:var(--muted); padding:12px 24px; border-bottom:1px solid var(--line); }
+  td{ padding:14px 24px; font-size:14px; border-bottom:1px solid var(--line); }
+  tr:last-child td{ border-bottom:none; }
+  .tag{ font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:20px; }
+  .tag.ingreso{ background:var(--green-soft); color:var(--green); }
+  .tag.gasto{ background:#c1533a14; color:var(--red); }
+  .amount.ingreso{ color:var(--green); font-weight:600; }
+  .amount.gasto{ color:var(--red); font-weight:600; }
+
+  .note{ font-size:13px; color:var(--muted); background:#f0ecd8; border:1px solid #e2d9ab; padding:16px 20px; border-radius:6px; }
+  .note code{ background:#fff; padding:1px 6px; border-radius:3px; }
+
+  footer{ text-align:center; color:var(--muted); font-size:12.5px; padding:26px; border-top:1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<div class="banner">MOCKUP DE EJEMPLO — negocio ficticio creado por KMA Business Intelligence</div>
+
+<div class="topbar">
+  <div class="brand"><span class="dot"></span><span>Restobar Canaima · Caja</span></div>
+  <div class="date" id="today"></div>
+</div>
+
+<main>
+  <div class="page-head">
+    <div>
+      <h1 class="disp">Flujo de caja diario</h1>
+      <p>Ingresos y gastos del restaurante, actualizados automáticamente.</p>
+    </div>
+    <span class="status demo" id="data-status">Mostrando datos de ejemplo</span>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi ingresos"><div class="label">Ingresos del día</div><div class="value" id="kpi-ingresos">S/ 0.00</div></div>
+    <div class="kpi gastos"><div class="label">Gastos del día</div><div class="value" id="kpi-gastos">S/ 0.00</div></div>
+    <div class="kpi"><div class="label">Balance</div><div class="value" id="kpi-balance">S/ 0.00</div></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head"><h2>Movimientos recientes</h2></div>
+    <table>
+      <thead><tr><th>Fecha</th><th>Descripción</th><th>Tipo</th><th style="text-align:right;">Monto</th></tr></thead>
+      <tbody id="mov-body"></tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    Este panel está preparado para leer datos reales desde <b>Supabase</b> (tabla <code>caja_movimientos</code>). Mientras no haya credenciales configuradas, muestra datos de ejemplo para la demostración.
+  </div>
+</main>
+
+<footer>Mockup de ejemplo — KMA Business Intelligence · Este sitio es una demostración, no un negocio real.</footer>
+
+<script>
+  document.getElementById('today').textContent = new Date().toLocaleDateString('es-PE', { weekday:'long', day:'numeric', month:'long' });
+
+  // ---- Configura aquí tu proyecto de Supabase para pasar de demo a datos reales ----
+  const SUPABASE_URL = "";       // ej: "https://xxxxx.supabase.co"
+  const SUPABASE_ANON_KEY = "";  // llave pública "anon" del proyecto
+
+  const sampleData = [
+    { fecha: "2026-08-31", descripcion: "Ventas salón — turno noche", tipo: "ingreso", monto: 1840.00 },
+    { fecha: "2026-08-31", descripcion: "Ventas delivery", tipo: "ingreso", monto: 620.50 },
+    { fecha: "2026-08-31", descripcion: "Compra de insumos (mercado)", tipo: "gasto", monto: 410.00 },
+    { fecha: "2026-08-31", descripcion: "Pago proveedor de bebidas", tipo: "gasto", monto: 280.00 },
+    { fecha: "2026-08-30", descripcion: "Ventas salón — turno noche", tipo: "ingreso", monto: 1975.00 },
+    { fecha: "2026-08-30", descripcion: "Mantenimiento de cocina", tipo: "gasto", monto: 150.00 },
+  ];
+
+  function money(n){ return "S/ " + n.toLocaleString('es-PE', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+
+  function render(data, isLive){
+    const status = document.getElementById('data-status');
+    status.textContent = isLive ? "Datos en vivo desde Supabase" : "Mostrando datos de ejemplo";
+    status.className = "status " + (isLive ? "live" : "demo");
+
+    let ingresos = 0, gastos = 0;
+    const tbody = document.getElementById('mov-body');
+    tbody.innerHTML = "";
+    data.forEach(m => {
+      if (m.tipo === "ingreso") ingresos += Number(m.monto); else gastos += Number(m.monto);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${m.fecha}</td><td>${m.descripcion}</td>
+        <td><span class="tag ${m.tipo}">${m.tipo}</span></td>
+        <td style="text-align:right;" class="amount ${m.tipo}">${m.tipo === 'gasto' ? '-' : '+'}${money(Number(m.monto))}</td>`;
+      tbody.appendChild(tr);
+    });
+    document.getElementById('kpi-ingresos').textContent = money(ingresos);
+    document.getElementById('kpi-gastos').textContent = money(gastos);
+    document.getElementById('kpi-balance').textContent = money(ingresos - gastos);
+  }
+
+  async function load(){
+    if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+      try {
+        const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const { data, error } = await client
+          .from('caja_movimientos')
+          .select('fecha, descripcion, tipo, monto')
+          .order('fecha', { ascending: false })
+          .limit(20);
+        if (error || !data || data.length === 0) throw error || new Error('sin datos');
+        render(data, true);
+        return;
+      } catch (e) {
+        console.warn('No se pudo leer Supabase, mostrando datos de ejemplo.', e);
+      }
+    }
+    render(sampleData, false);
+  }
+
+  load();
+</script>
+
+</body>
+</html>

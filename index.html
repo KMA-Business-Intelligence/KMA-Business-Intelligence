@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KMA Business Intelligence — Sistemas operativos para tu negocio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-black:#0a0a0a;
+    --bg-gray:#4b4b4b;
+    --teal:#1fae7c;
+    --teal-dark:#158f65;
+    --teal-soft:#1fae7c22;
+    --white:#f7f7f5;
+    --muted:#b9b9b7;
+    --muted-dim:#8a8a88;
+    --line:#ffffff1a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Work Sans', sans-serif;
+    background:var(--bg-black);
+    color:var(--white);
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  .display{font-family:'Archivo Black', sans-serif; font-weight:400;}
+
+  /* ---------- nav ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 6vw;
+    background:linear-gradient(180deg, rgba(10,10,10,.92), rgba(10,10,10,0));
+    backdrop-filter:blur(2px);
+  }
+  .nav-mark{display:flex; align-items:center; gap:10px;}
+  .nav-mark svg{width:26px; height:26px;}
+  .nav-mark span{font-family:'Archivo Black'; font-size:16px; letter-spacing:.5px;}
+  .nav-links{display:flex; gap:36px;}
+  .nav-links a{color:var(--muted); text-decoration:none; font-size:14px; font-weight:500; transition:color .2s;}
+  .nav-links a:hover{color:var(--teal);}
+  .nav-cta{
+    border:1px solid var(--teal); color:var(--teal); padding:9px 18px;
+    border-radius:2px; text-decoration:none; font-size:13px; font-weight:600;
+    transition:background .2s, color .2s;
+  }
+  .nav-cta:hover{background:var(--teal); color:#0a0a0a;}
+  @media (max-width:820px){ .nav-links{display:none;} }
+
+  /* ---------- hero ---------- */
+  header.hero{
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    background:
+      radial-gradient(ellipse 900px 500px at 50% 38%, #1a1a1a 0%, transparent 70%),
+      linear-gradient(100deg, #050505 0%, #1c1c1c 45%, #545454 100%);
+    padding:120px 6vw 80px;
+    position:relative;
+  }
+  .mark{ width:74px; height:74px; margin-bottom:18px; }
+  .brand-word{
+    font-size:clamp(52px, 9vw, 92px);
+    color:var(--white);
+    letter-spacing:1px;
+    line-height:.95;
+  }
+  .brand-sub{
+    font-size:clamp(16px, 2.4vw, 22px);
+    color:var(--white);
+    font-family:'Archivo Black';
+    letter-spacing:2px;
+    margin-top:6px;
+  }
+  .mark-rule{ width:120px; height:2px; background:var(--teal); margin:22px 0 18px; }
+  .tagline{
+    color:var(--teal);
+    font-size:13px;
+    letter-spacing:3px;
+    font-weight:600;
+  }
+  .hero-desc{
+    max-width:520px; margin:34px auto 0;
+    color:var(--muted); font-size:16px; line-height:1.7;
+  }
+  .hero-actions{ margin-top:38px; display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
+  .btn-solid{
+    background:var(--teal); color:#0a0a0a; text-decoration:none;
+    padding:14px 28px; font-weight:700; font-size:14px; border-radius:2px;
+    transition:background .2s;
+  }
+  .btn-solid:hover{background:var(--teal-dark);}
+  .btn-ghost{
+    border:1px solid var(--line); color:var(--white); text-decoration:none;
+    padding:14px 28px; font-weight:600; font-size:14px; border-radius:2px;
+    transition:border-color .2s;
+  }
+  .btn-ghost:hover{border-color:var(--teal);}
+
+  /* ---------- shared section ---------- */
+  section{ padding:110px 6vw; max-width:1180px; margin:0 auto; }
+  .section-head{ max-width:640px; margin-bottom:56px; }
+  .section-head .kicker{ color:var(--teal); font-size:13px; font-weight:600; letter-spacing:1.5px; margin-bottom:14px; display:block;}
+  .section-head h2{ font-family:'Archivo Black'; font-size:clamp(28px,4vw,42px); line-height:1.15; }
+  .section-head p{ color:var(--muted); margin-top:16px; font-size:16px; }
+
+  /* ---------- services ---------- */
+  .service-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+  .service-card{ background:var(--bg-black); padding:44px 40px; }
+  .service-card .num{ color:var(--teal); font-family:'Archivo Black'; font-size:13px; letter-spacing:1px; margin-bottom:18px; display:block;}
+  .service-card h3{ font-size:22px; margin-bottom:14px; font-weight:700; }
+  .service-card p{ color:var(--muted); font-size:15px; margin-bottom:20px; }
+  .tag-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .tag{ border:1px solid var(--line); color:var(--muted); font-size:12.5px; padding:6px 12px; border-radius:2px; }
+  @media (max-width:760px){ .service-grid{ grid-template-columns:1fr; } .service-card{padding:36px 26px;} }
+
+  /* ---------- mockups ---------- */
+  #mockups{ background:#0e0e0e; }
+  .mockup-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:28px; }
+  @media (max-width:900px){ .mockup-grid{ grid-template-columns:1fr; } }
+  .mockup-card{ border:1px solid var(--line); background:#111; overflow:hidden; }
+  .mockup-preview{ height:190px; padding:20px; position:relative; background:#161616; border-bottom:1px solid var(--line); }
+  .mockup-body{ padding:26px 24px 28px; }
+  .mockup-body .kind{ color:var(--teal); font-size:12px; font-weight:600; letter-spacing:1px; margin-bottom:8px; }
+  .mockup-body h3{ font-size:19px; margin-bottom:10px; }
+  .mockup-body p{ color:var(--muted); font-size:14px; }
+
+  /* mini charts, css-only */
+  .bars{ display:flex; align-items:flex-end; gap:8px; height:100%; padding-top:14px;}
+  .bars .bar{ flex:1; background:var(--teal); opacity:.85; border-radius:1px 1px 0 0; }
+  .line-chart{ width:100%; height:100%; }
+  .pipeline{ display:flex; flex-direction:column; gap:10px; height:100%; justify-content:center; }
+  .pipeline .stage{ display:flex; align-items:center; gap:10px; font-size:11px; color:var(--muted); }
+  .pipeline .dot{ width:9px; height:9px; border-radius:50%; background:var(--teal); flex-shrink:0; }
+  .pipeline .track{ flex:1; height:5px; background:#2a2a2a; position:relative; overflow:hidden; }
+  .pipeline .track i{ position:absolute; left:0; top:0; bottom:0; background:var(--teal); }
+
+  /* ---------- process ---------- */
+  #proceso{ }
+  .steps{ display:flex; flex-direction:column; }
+  .step{ display:grid; grid-template-columns:70px 1fr; gap:24px; padding:28px 0; border-top:1px solid var(--line); }
+  .step:last-child{ border-bottom:1px solid var(--line); }
+  .step .idx{ font-family:'Archivo Black'; color:var(--teal); font-size:20px; }
+  .step h4{ font-size:18px; margin-bottom:6px; }
+  .step p{ color:var(--muted); font-size:14.5px; max-width:560px; }
+
+  /* ---------- contact ---------- */
+  #contacto{ text-align:center; }
+  #contacto h2{ font-family:'Archivo Black'; font-size:clamp(30px,5vw,48px); max-width:680px; margin:0 auto 20px; }
+  #contacto p{ color:var(--muted); max-width:520px; margin:0 auto 36px; font-size:16px; }
+  .contact-actions{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+
+  footer{ border-top:1px solid var(--line); padding:32px 6vw; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; color:var(--muted-dim); font-size:13px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-mark">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 46c-7 0-12-5.5-12-12s5-12 12-12c2 0 4 .5 5.5 1.5C38 17 43 14 49 14c9 0 16.5 6.5 17.8 15H30z" fill="#1fae7c"/>
+      <path d="M52 34h18v30H40" stroke="#1fae7c" stroke-width="5" fill="none"/>
+      <line x1="26" y1="76" x2="74" y2="76" stroke="#1fae7c" stroke-width="5"/>
+    </svg>
+    <span>KMA</span>
+  </div>
+  <div class="nav-links">
+    <a href="#servicios">Servicios</a>
+    <a href="#mockups">Mockups</a>
+    <a href="#proceso">Cómo trabajamos</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+  <a class="nav-cta" href="#contacto">Cotizar</a>
+</nav>
+
+<header class="hero">
+  <svg class="mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M30 46c-7 0-12-5.5-12-12s5-12 12-12c2 0 4 .5 5.5 1.5C38 17 43 14 49 14c9 0 16.5 6.5 17.8 15H30z" fill="#1fae7c"/>
+    <path d="M52 34h18v30H40" stroke="#1fae7c" stroke-width="5" fill="none"/>
+    <line x1="26" y1="76" x2="74" y2="76" stroke="#1fae7c" stroke-width="5"/>
+  </svg>
+  <div class="brand-word display">KMA</div>
+  <div class="brand-sub display">BUSINESS INTELLIGENCE</div>
+  <div class="mark-rule"></div>
+  <div class="tagline">SISTEMAS QUE OPERAN TU NEGOCIO</div>
+  <p class="hero-desc">Implementamos CRMs, paneles de control y sistemas operativos a la medida — flujo de caja, inventario y cuentas — para negocios que necesitan orden, no otra hoja de cálculo suelta.</p>
+  <div class="hero-actions">
+    <a class="btn-solid" href="#mockups">Ver ejemplos</a>
+    <a class="btn-ghost" href="#contacto">Hablar de mi negocio</a>
+  </div>
+</header>
+
+<section id="servicios">
+  <div class="section-head">
+    <span class="kicker">SERVICIOS</span>
+    <h2>Dos formas de poner orden en tu operación</h2>
+    <p>Trabajo del lado operativo, no de marketing: te ayudo a que tu negocio tenga un sistema donde ver y controlar lo que pasa todos los días.</p>
+  </div>
+  <div class="service-grid">
+    <div class="service-card">
+      <span class="num">01 — PLATAFORMAS</span>
+      <h3>Implementación de CRM y plataformas de negocio</h3>
+      <p>Configuro la plataforma que mejor se ajuste a tu operación: pipelines, automatizaciones, usuarios y flujos de trabajo, listos para tu equipo desde el día uno.</p>
+      <div class="tag-row">
+        <span class="tag">GoHighLevel</span>
+        <span class="tag">Monday.com</span>
+        <span class="tag">Google Workspace</span>
+        <span class="tag">HubSpot</span>
+        <span class="tag">Otras plataformas a pedido</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="num">02 — INTELIGENCIA OPERATIVA</span>
+      <h3>Sistemas de control y visibilidad</h3>
+      <p>Construyo el panel que te falta: de dónde entra y sale tu dinero, cuánto stock tienes, y cómo van tus cuentas — en un solo lugar, actualizado.</p>
+      <div class="tag-row">
+        <span class="tag">Flujo de caja</span>
+        <span class="tag">Control de inventario</span>
+        <span class="tag">Dashboards de cuentas</span>
+        <span class="tag">Reportes automáticos</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="mockups">
+  <div class="section-head">
+    <span class="kicker">MOCKUPS</span>
+    <h2>Así se ve un sistema KMA en marcha</h2>
+    <p>Ejemplos ilustrativos, con empresas ficticias, para mostrar el tipo de panel que se implementa según el caso.</p>
+  </div>
+  <div class="mockup-grid">
+
+    <div class="mockup-card">
+      <div class="mockup-preview">
+        <div class="bars">
+          <div class="bar" style="height:35%"></div>
+          <div class="bar" style="height:55%"></div>
+          <div class="bar" style="height:40%"></div>
+          <div class="bar" style="height:70%"></div>
+          <div class="bar" style="height:50%"></div>
+          <div class="bar" style="height:85%"></div>
+          <div class="bar" style="height:60%"></div>
+        </div>
+      </div>
+      <div class="mockup-body">
+        <div class="kind">FERRETERÍA RODRÍGUEZ · INVENTARIO</div>
+        <h3>Control de stock por sucursal</h3>
+        <p>Panel que muestra existencias, productos por agotarse y alertas de reposición en tiempo real, por punto de venta.</p>
+      </div>
+    </div>
+
+    <div class="mockup-card">
+      <div class="mockup-preview">
+        <svg class="line-chart" viewBox="0 0 300 160" preserveAspectRatio="none">
+          <polyline points="0,120 40,100 80,110 120,70 160,85 200,40 240,55 300,20" fill="none" stroke="#1fae7c" stroke-width="3"/>
+          <polyline points="0,120 40,100 80,110 120,70 160,85 200,40 240,55 300,20 300,160 0,160" fill="#1fae7c22" stroke="none"/>
+        </svg>
+      </div>
+      <div class="mockup-body">
+        <div class="kind">RESTOBAR CANAIMA · FLUJO DE CAJA</div>
+        <h3>Caja diaria automatizada</h3>
+        <p>Ingresos, gastos y cierre de caja consolidados sin planillas manuales, con corte automático cada noche.</p>
+      </div>
+    </div>
+
+    <div class="mockup-card">
+      <div class="mockup-preview">
+        <div class="pipeline">
+          <div class="stage"><span class="dot"></span>Nuevo contacto<div class="track"><i style="width:90%"></i></div></div>
+          <div class="stage"><span class="dot"></span>Cotizado<div class="track"><i style="width:65%"></i></div></div>
+          <div class="stage"><span class="dot"></span>Negociando<div class="track"><i style="width:40%"></i></div></div>
+          <div class="stage"><span class="dot"></span>Cerrado<div class="track"><i style="width:20%"></i></div></div>
+        </div>
+      </div>
+      <div class="mockup-body">
+        <div class="kind">GRUPO SERVIPRO · CRM</div>
+        <h3>Seguimiento de clientes en GoHighLevel</h3>
+        <p>Pipeline de ventas con etapas, recordatorios automáticos y reportes de conversión por vendedor.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="proceso">
+  <div class="section-head">
+    <span class="kicker">CÓMO TRABAJAMOS</span>
+    <h2>De la primera llamada al sistema en marcha</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="idx display">1</div>
+      <div><h4>Diagnóstico</h4><p>Revisamos cómo manejas hoy tu información — Excel, cuadernos, otro sistema — y qué te está costando tiempo o dinero.</p></div>
+    </div>
+    <div class="step">
+      <div class="idx display">2</div>
+      <div><h4>Propuesta</h4><p>Te muestro una cotización clara: qué se implementa, en qué plataforma, y en cuánto tiempo queda listo.</p></div>
+    </div>
+    <div class="step">
+      <div class="idx display">3</div>
+      <div><h4>Implementación</h4><p>Configuro el sistema, migro tu información existente y dejo todo probado antes de entregarlo.</p></div>
+    </div>
+    <div class="step">
+      <div class="idx display">4</div>
+      <div><h4>Soporte</h4><p>Capacito a tu equipo y quedo disponible para ajustes durante el primer mes de uso.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contacto">
+  <h2 class="display">¿Listo para dejar el Excel suelto atrás?</h2>
+  <p>Cuéntame cómo manejas tu operación hoy y te armo una propuesta a la medida de tu negocio.</p>
+  <div class="contact-actions">
+    <a class="btn-solid" href="https://wa.me/51000000000" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+    <a class="btn-ghost" href="mailto:hola@kmabi.com">hola@kmabi.com</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 KMA Business Intelligence</span>
+  <span>Lima, Perú</span>
+</footer>
+
+</body>
+</html>
